@@ -17,8 +17,7 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
-            android:clearTaskOnLaunch="true"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:clearTaskOnLaunch="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

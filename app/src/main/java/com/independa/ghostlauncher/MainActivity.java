@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "Doing initial build of intent for Ghost Launcher.");
@@ -60,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
         // -- this will wait on the async task associated to do the bootup.
 //        if (androidIntent == null) {androidIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.independa.angelaandroid");}
 //        if (androidIntent != null) {
-            androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            getApplicationContext().startActivity(androidIntent);
+//            androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            getApplicationContext().startActivity(androidIntent);
 //        }
-//        LaunchPackageTask lat = new LaunchPackageTask(MainActivity.this);
-//        lat.execute("com.independa.angelaandroid");
+        LaunchPackageTask lat = new LaunchPackageTask(MainActivity.this);
+        lat.execute("com.independa.angelaandroid");
     }
 
     @Override

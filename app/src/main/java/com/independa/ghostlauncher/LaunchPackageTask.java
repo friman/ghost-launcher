@@ -23,11 +23,12 @@ public class LaunchPackageTask extends AsyncTask<String, Void, String> {
             Log.d(this.thisActivity.TAG, "Now attempting while loop for angelaAndroid intent search");
             // Wait while the package doesn't yet exist in the system.
             this.thisActivity.androidIntent = this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch);
-            if (this.thisActivity.androidIntent == null) {
-                retval = packageToLaunch;
-            } else  {
-                retval = "success";
+            while (this.thisActivity.androidIntent == null) {
+                Thread.sleep(1000);
+                this.thisActivity.androidIntent = this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch);
             }
+
+            retval = packageToLaunch;
 
             return retval;
         } catch (Exception e) {
