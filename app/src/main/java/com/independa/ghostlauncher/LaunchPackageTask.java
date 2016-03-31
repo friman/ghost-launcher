@@ -28,7 +28,7 @@ public class LaunchPackageTask extends AsyncTask<String, Void, String> {
                 this.thisActivity.androidIntent = this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch);
             }
 
-            retval = packageToLaunch;
+            retval = "success";
 
             return retval;
         } catch (Exception e) {
