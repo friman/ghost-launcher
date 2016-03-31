@@ -24,8 +24,11 @@ public class LaunchPackageTask extends AsyncTask<String, Void, String> {
             // Wait while the package doesn't yet exist in the system.
             this.thisActivity.androidIntent = this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch);
             while (this.thisActivity.androidIntent == null) {
+                Log.d(this.thisActivity.TAG, "Now in loop, doing attempt.");
                 Thread.sleep(1000);
                 this.thisActivity.androidIntent = this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch);
+                Log.d(this.thisActivity.TAG, "Intent fetched is: " + this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch));
+                Log.d(this.thisActivity.TAG, "Intent is now: " + this.thisActivity.androidIntent);
             }
 
             retval = "success";
@@ -46,8 +49,8 @@ public class LaunchPackageTask extends AsyncTask<String, Void, String> {
                 Log.d(this.thisActivity.TAG, "Error in LaunchPackageTask, check trace logs.");
                 return;
             }
-            LaunchPackageTask lpt = new LaunchPackageTask(this.thisActivity);
-            lpt.execute(in_string);
+//            LaunchPackageTask lpt = new LaunchPackageTask(this.thisActivity);
+//            lpt.execute(in_string);
         } else {
             this.thisActivity.androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
             this.thisActivity.getApplicationContext().startActivity(this.thisActivity.androidIntent);
