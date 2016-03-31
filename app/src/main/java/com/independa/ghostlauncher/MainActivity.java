@@ -1,12 +1,15 @@
 package com.independa.ghostlauncher;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
     public Intent androidIntent;
@@ -19,8 +22,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "Doing initial build of intent for Ghost Launcher.");
 
-
-        androidIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.independa.angelaandroid");
+        // Turn on ADB in case we have any strange crashes
+        String command = "su";
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec(command);
+        } catch (Exception e) {
+            Log.d(TAG, "Error in setting ADB: " + e.toString());
+            e.printStackTrace();
+        }
+        command = "setprop persist.service.adb.enable 1";
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec(command);
+        } catch (Exception e) {
+            Log.d(TAG, "Error in setting ADB: " + e.toString());
+            e.printStackTrace();
+        }
+        command = "start adbd";
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec(command);
+        } catch (Exception e) {
+            Log.d(TAG, "Error in setting ADB: " + e.toString());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -34,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
         // -- this will wait on the async task associated to do the bootup.
 //        if (androidIntent == null) {androidIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.independa.angelaandroid");}
 //        if (androidIntent != null) {
-//            androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            getApplicationContext().startActivity(androidIntent);
+            androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(androidIntent);
 //        }
-        LaunchAngelaTask lat = new LaunchAngelaTask(MainActivity.this);
-        lat.execute("RUN");
+//        LaunchPackageTask lat = new LaunchPackageTask(MainActivity.this);
+//        lat.execute("com.independa.angelaandroid");
     }
 
     @Override
