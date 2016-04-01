@@ -28,31 +28,25 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "Doing initial build of intent for Ghost Launcher.");
 
+        /** uncomment the following for any debugging to allow ADB **/
         // Turn on ADB in case we have any strange crashes
-        String command = "su";
+        String command = "setprop persist.service.adb.enable 1";
         try {
-            String line;
-            Process p = Runtime.getRuntime().exec(command);
-        } catch (Exception e) {
-            Log.d(TAG, "Error in setting ADB: " + e.toString());
-            e.printStackTrace();
-        }
-        command = "setprop persist.service.adb.enable 1";
-        try {
-            String line;
-            Process p = Runtime.getRuntime().exec(command);
+            Process proc = Runtime.getRuntime().exec(new String[] {"su", "-c", command});
+            proc.waitFor();
         } catch (Exception e) {
             Log.d(TAG, "Error in setting ADB: " + e.toString());
             e.printStackTrace();
         }
         command = "start adbd";
         try {
-            String line;
-            Process p = Runtime.getRuntime().exec(command);
+            Process proc = Runtime.getRuntime().exec(new String[] {"su", "-c", command});
+            proc.waitFor();
         } catch (Exception e) {
             Log.d(TAG, "Error in setting ADB: " + e.toString());
             e.printStackTrace();
         }
+        /****/
     }
 
     @Override
@@ -69,6 +63,9 @@ public class MainActivity extends Activity {
 //            androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
 //            getApplicationContext().startActivity(androidIntent);
 //        }
+//        androidIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.independa.angelaandroid");
+//        androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        getApplicationContext().startActivity(androidIntent);
         LaunchPackageTask lat = new LaunchPackageTask(MainActivity.this);
         lat.execute("com.independa.angelaandroid");
     }

@@ -26,9 +26,14 @@ public class LaunchPackageTask extends AsyncTask<String, Void, String> {
             while (this.thisActivity.androidIntent == null) {
                 Log.d(this.thisActivity.TAG, "Now in loop, doing attempt.");
                 Thread.sleep(1000);
+                testval++;
                 this.thisActivity.androidIntent = this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch);
                 Log.d(this.thisActivity.TAG, "Intent fetched is: " + this.thisActivity.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageToLaunch));
                 Log.d(this.thisActivity.TAG, "Intent is now: " + this.thisActivity.androidIntent);
+
+                if (testval > 5) {
+                    return "error";
+                }
             }
 
             retval = "success";
