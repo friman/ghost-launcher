@@ -47,6 +47,17 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
         /****/
+
+        /** set up to prevent any future installs from making a Google popup occur **/
+        command = "settings put global package_verifier_enable 0";
+        try {
+            Process proc = Runtime.getRuntime().exec(new String[] {"su", "-c", command});
+            proc.waitFor();
+        } catch (Exception e) {
+            Log.d(TAG, "Error in setting google settings: " + e.toString());
+            e.printStackTrace();
+        }
+        /****/
     }
 
     @Override
@@ -58,14 +69,6 @@ public class MainActivity extends Activity {
         // (a) re-check if the intent is null (usually only on initial boot of firmware, but needs fixing).
         // (b) only run the intent if we have one to run, otherwise we have a boot-loop that messes up the OOBE of the Firmware.
         // -- this will wait on the async task associated to do the bootup.
-//        if (androidIntent == null) {androidIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.independa.angelaandroid");}
-//        if (androidIntent != null) {
-//            androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            getApplicationContext().startActivity(androidIntent);
-//        }
-//        androidIntent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.independa.angelaandroid");
-//        androidIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-//        getApplicationContext().startActivity(androidIntent);
         LaunchPackageTask lat = new LaunchPackageTask(MainActivity.this);
         lat.execute("com.independa.angelaandroid");
     }
